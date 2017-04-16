@@ -5,15 +5,17 @@ package ticTacToe;
  */
 public class TerminalTest {
     public static boolean terminalOrNot(State s){
-        int movesRemaining=0;
+        boolean flag=true;
+        outerloop:
         for(int i=0;i<s.getSize();i++){
             for(int j=0;j<s.getSize();j++){
-                if(s.getPlayerInPos(i,j)==Player.Blank){
-                    movesRemaining++;
+                if(s.getPlayerInPos(i,j)==Player.B){
+                    flag=false;
+                    break outerloop;
                 }
             }
         }
-        return movesRemaining==0||hasWon(Player.X,s)||hasWon(Player.O,s);
+        return hasWon(Player.X,s)||hasWon(Player.O,s)||flag;
     }
 
 
@@ -27,7 +29,7 @@ public class TerminalTest {
         }
     }
 
-    private static boolean hasWon(Player player ,State s) {
+    public static boolean hasWon(Player player ,State s) {
         int size=s.getSize();
         //check column for player win
         for (int i = 0; i < size; i++) {

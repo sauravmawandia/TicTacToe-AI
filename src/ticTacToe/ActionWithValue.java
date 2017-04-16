@@ -4,20 +4,19 @@ package ticTacToe;
  * Created by saura on 4/15/2017.
  */
 public class ActionWithValue {
-    private final Action a;
-    private final int v;
+    private final Action action;
+    private final int value;
 
-    public ActionWithValue(Action a, int v) {
-        this.a = a;
-        this.v = v;
+    public ActionWithValue(Action action, int value) {
+        this.action = action;
+        this.value = value;
     }
 
-    public int getV() {
-        return v;
+    public int getValue() {
+        return value;
     }
 
-    public Action getA() {
-
-        return a;
+    public Action getAction() {
+        return action;
     }
 }
