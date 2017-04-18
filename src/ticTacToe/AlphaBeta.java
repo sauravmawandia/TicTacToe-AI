@@ -2,6 +2,7 @@ package ticTacToe;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by saura on 4/15/2017.
@@ -13,9 +14,9 @@ public class AlphaBeta {
     private static int MINUS_INFINITY=Integer.MIN_VALUE;
     private List<ActionWithValue> vValue;
 
-    public Action alphaBetaSearch(State state){
+    public Action alphaBetaSearch(State x){
 
-        State newState=state;
+        State newState= x;
         vValue=new ArrayList<>();
         int v= maxValue(newState,MIN_UTILITY,MAX_UTILITY);
         for(ActionWithValue av:vValue) {
@@ -30,10 +31,9 @@ public class AlphaBeta {
             return TerminalTest.getUtility(state);
         }
         int v=MINUS_INFINITY;
-        for(Action a: state.getAvailableActions()){
-            v=Math.max(v,minValue(result(state,a),alpha,beta));
-            state.resetMove(a);
-            vValue.add(new ActionWithValue(a,v));
+        for(Action action: state.getAvailableActions()){
+            v=Math.max(v,minValue(result(state,action,state.getMaxPlayer()),alpha,beta));
+            vValue.add(new ActionWithValue(action,v));
             if(v>=beta){
                 return v;
             }
@@ -48,8 +48,7 @@ public class AlphaBeta {
         }
         int v=INFINITY;
         for(Action a: state.getAvailableActions()){
-            v=Math.min(v,maxValue(result(state,a),alpha,beta));
-            state.resetMove(a);
+            v=Math.min(v,maxValue(result(state,a,state.getMinPlayer()),alpha,beta));
             vValue.add(new ActionWithValue(a,v));
             if(v<=alpha){
                 return v;
@@ -60,8 +59,8 @@ public class AlphaBeta {
         return v;
     }
 
-    private State result(State s, Action action){
-        s.makeMove(action);
+    private State result(State s, Action action,Player p){
+        s.makeMove(action,p);
         return s;
     }
 

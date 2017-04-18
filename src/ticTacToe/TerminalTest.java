@@ -31,45 +31,17 @@ public class TerminalTest {
 
     public static boolean hasWon(Player player ,State s) {
         int size=s.getSize();
-        //check column for player win
-        for (int i = 0; i < size; i++) {
-            if (s.getPlayerInPos(s.getX(),i) != player)
-                break;
-            if (i == size - 1) {
+        Player[][] board=s.getState();
+        if ((board[0][0] == board[1][1] && board[0][0] == board[2][2] && board[0][0] == player) || (board[0][2] == board[1][1] && board[0][2] == board[2][0] && board[0][2] == player)) {
+            return true;
+        }
+        for (int i = 0; i < 3; ++i) {
+            if ((board[i][0] == board[i][1] && board[i][0] == board[i][2] && board[i][0] == player)
+                    || (board[0][i] == board[1][i] && board[0][i] == board[2][i] && board[0][i] == player)) {
                 return true;
             }
         }
 
-        //check row for player win
-        for (int i = 0; i < size; i++) {
-            if (s.getPlayerInPos(i,s.getY()) != player)
-                break;
-            if (i == size - 1) {
-                return true;
-            }
-        }
-
-        //check diagonal for player win
-        if (s.getX() == s.getY()) {
-            for (int i = 0; i < size; i++) {
-                if (s.getPlayerInPos(i,i) != player)
-                    break;
-                if (i == size - 1) {
-                    return true;
-                }
-            }
-        }
-
-        //check anti diagonal
-        if (s.getX() + s.getY() == size - 1) {
-            for (int i = 0; i < size; i++) {
-                if (s.getPlayerInPos(i,(size - 1) - i) != player)
-                    break;
-                if (i == size - 1) {
-                    return true;
-                }
-            }
-        }
         return false;
     }
 }

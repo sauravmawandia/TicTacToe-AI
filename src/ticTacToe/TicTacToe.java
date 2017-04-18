@@ -8,8 +8,8 @@ import java.util.Scanner;
  */
 public class TicTacToe {
     public static void main(String[] args) throws IOException{
-        Player[][] state=new Player[4][4];
-        State s=new State(4,Player.X,state);
+        Player[][] state=new Player[3][3];
+        State s=new State(3,Player.X,Player.O,state);
         s.initialize();
         int count=0;
         AlphaBeta ab=new AlphaBeta();
@@ -21,15 +21,12 @@ public class TicTacToe {
             int x=Integer.parseInt(ar[0]);
             int y=Integer.parseInt(ar[1]);
             Action a=new Action(x,y);
-            s.setPlayer(Player.X);
-            s.makeMove(a);
+            s.makeMove(a,s.getMaxPlayer());
             printWinner(s);
-
-            s.setPlayer(Player.O);
             printCurrentState(s.getState());
             System.out.println("Computer turn");
             a=ab.alphaBetaSearch(s);
-            s.makeMove(a);
+            s.makeMove(a,s.getMinPlayer());
             printCurrentState(s.getState());
             printWinner(s);
 
@@ -39,8 +36,8 @@ public class TicTacToe {
         }
     }
     public static void printCurrentState(Player[][] players ){
-        for(int i=0;i<4;i++){
-            for(int j=0;j<4;j++){
+        for(int i=0;i<players.length;i++){
+            for(int j=0;j<players[i].length;j++){
                 System.out.print(players[i][j]+" | ");
             }
             System.out.println();

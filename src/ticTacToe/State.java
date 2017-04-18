@@ -7,18 +7,18 @@ import java.util.ArrayList;
  * Created by saura on 4/15/2017.
  */
 public class State {
-    private final Player state[][];
+    Player state[][];
     private final int size;
-    private Player player;
-    private int x;
-    private int y;
+    private final Player maxPlayer;
+    private final Player minPlayer;
     private final ArrayList<Action> actions;
 
-    public State(int size, Player player, Player[][] state) {
+    public State(int size, Player maxPlayer, Player minPlayer,Player[][] state) {
         this.size = size;
         this.state = state;
-        this.player = player;
+        this.maxPlayer = maxPlayer;
         actions = new ArrayList<>();
+        this.minPlayer=minPlayer;
     }
     public void initialize(){
         for(int i=0;i<size;i++){
@@ -28,12 +28,12 @@ public class State {
         }
     }
 
-    public int getX() {
-        return x;
+    public Player getMaxPlayer() {
+        return maxPlayer;
     }
 
-    public int getY() {
-        return y;
+    public Player getMinPlayer() {
+        return minPlayer;
     }
 
     public Player getPlayerInPos(int x, int y) {
@@ -49,20 +49,9 @@ public class State {
         return size;
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
 
-    public void makeMove(Action action) {
-        if(this.state[action.getX()][action.getY()]!=Player.B){
-            throw new IllegalArgumentException("Invalid move");
-        }
-        this.state[action.getX()][action.getY()]=player;
-        x=action.getX();
-        y=action.getY();
-    }
-    public void resetMove(Action action) {
-        this.state[action.getX()][action.getY()]=Player.B;
+    public void makeMove(Action action,Player p) {
+        this.state[action.getX()][action.getY()] = p;
     }
 
     public ArrayList<Action> getAvailableActions() {
