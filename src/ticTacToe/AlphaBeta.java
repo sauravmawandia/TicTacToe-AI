@@ -12,51 +12,43 @@ public class AlphaBeta {
     private static int MAX_UTILITY=1000;
     private static int INFINITY=Integer.MAX_VALUE;
     private static int MINUS_INFINITY=Integer.MIN_VALUE;
-    private List<ActionWithValue> vValue;
 
-    public Action alphaBetaSearch(State x){
-
-        State newState= x;
-        vValue=new ArrayList<>();
-        int v= maxValue(newState,MIN_UTILITY,MAX_UTILITY);
-        for(ActionWithValue av:vValue) {
-            if (av.getValue() == v) {
-                return av.getAction();
-            }
-        }
-        return vValue.get(0).getAction();
+    public Action alphaBetaSearch(State state){
+        ActionWithValue av= maxValue(state,MIN_UTILITY,MAX_UTILITY);
+        return av.getAction();
     }
-    private int maxValue(State state,int alpha,int beta){
+    private ActionWithValue maxValue(State state,int alpha,int beta){
         if(TerminalTest.terminalOrNot(state)){
-            return TerminalTest.getUtility(state);
+            return new ActionWithValue( null,TerminalTest.getUtility(state));
         }
         int v=MINUS_INFINITY;
-        for(Action action: state.getAvailableActions()){
-            v=Math.max(v,minValue(result(state,action,state.getMaxPlayer()),alpha,beta));
-            vValue.add(new ActionWithValue(action,v));
+        Action finalAction=null;
+        for( Action action: state.getAvailableActions()){
+            v=Math.max(v,minValue(result(state,action,state.getMaxPlayer()),alpha,beta).getValue());
             if(v>=beta){
-                return v;
+                return new ActionWithValue(action,v);
             }
             alpha=Math.max(alpha,v);
-
+            finalAction=action;
         }
-        return v;
+        return new ActionWithValue(finalAction,v);
     }
-    private int minValue(State state,int alpha,int beta){
+    private ActionWithValue minValue(State state,int alpha,int beta){
         if(TerminalTest.terminalOrNot(state)){
-            return TerminalTest.getUtility(state);
+            return new ActionWithValue( null,TerminalTest.getUtility(state));
         }
         int v=INFINITY;
-        for(Action a: state.getAvailableActions()){
-            v=Math.min(v,maxValue(result(state,a,state.getMinPlayer()),alpha,beta));
-            vValue.add(new ActionWithValue(a,v));
+        Action finalAction=null;
+        for(Action action: state.getAvailableActions()){
+            v=Math.min(v,maxValue(result(state,action,state.getMinPlayer()),alpha,beta).getValue());
             if(v<=alpha){
-                return v;
+                return new ActionWithValue(action,v);
             }
             beta=Math.min(beta,v);
+            finalAction=action;
 
         }
-        return v;
+        return new ActionWithValue(finalAction,v);
     }
 
     private State result(State s, Action action,Player p){

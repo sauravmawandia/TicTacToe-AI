@@ -21,17 +21,18 @@ public class TicTacToe {
             int y=Integer.parseInt(ar[1]);
 
             Action a=new Action(x,y);
-            s.makeMove(a,s.getMaxPlayer());
+            s.makeMove(a,s.getMinPlayer());
             printWinner(s);
             printCurrentState(s.getState());
             System.out.println("Computer turn");
             State newState=new State(3,Player.X,Player.O,copyArray(s.getState()));
             a=ab.alphaBetaSearch(newState);
-            s.makeMove(a,s.getMinPlayer());
-            printCurrentState(s.getState());
+            if(a==null){
+                printWinner(s);
+            }
+            s.makeMove(a,s.getMaxPlayer());
             printWinner(s);
-
-
+            printCurrentState(s.getState());
 
             count++;
         }
@@ -56,7 +57,7 @@ public class TicTacToe {
             System.exit(0);
         }
     }
-    private static Player[][] copyArray(Player[][] board){
+    public static Player[][] copyArray(Player[][] board){
         Player a[][]=new Player[board.length][board[0].length];
         for(int i=0;i<a.length;i++){
             for(int j=0;j<a.length;j++){
