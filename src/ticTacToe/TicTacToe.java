@@ -9,32 +9,40 @@ import java.util.SplittableRandom;
  */
 public class TicTacToe {
     public static void main(String[] args) throws IOException{
-        State s=new State(3,Player.X,Player.O);
-        int count=0;
+        System.out.print("Enter size");
+        Scanner sc=new Scanner(System.in);
+        int size=sc.nextInt();
+        State s=new State(size,Player.X,Player.O);
+        printCurrentState(s.getState());
         AlphaBeta ab=new AlphaBeta();
         while(true){
-            System.out.println("Enter x and y of the position"+s.getMaxPlayer());
-            Scanner in = new Scanner(System.in);
-            String input = in.nextLine();
-            String[] ar=input.split(",");
-            int x=Integer.parseInt(ar[0]);
-            int y=Integer.parseInt(ar[1]);
+            Action a;
+            try {
+                System.out.println("Your turn ");
+                System.out.println("Please Enter x and y of the position" + s.getMaxPlayer());
+                Scanner in = new Scanner(System.in);
+                String input = in.nextLine();
+                String[] ar = input.split(",");
+                int x = Integer.parseInt(ar[0]);
+                int y = Integer.parseInt(ar[1]);
 
-            Action a=new Action(x,y);
-            s.makeMove(a,s.getMinPlayer());
+                a = new Action(x, y);
+                s.makeMove(a, s.getMinPlayer());
+            }
+            catch (IllegalArgumentException e){
+                System.out.print("Player already in pos");
+                continue;
+            }
             printWinner(s);
             printCurrentState(s.getState());
             System.out.println("Computer turn");
-            State newState=new State(3,Player.X,Player.O,copyArray(s.getState()));
-            a=ab.alphaBetaSearch(newState);
+            a=ab.alphaBetaSearch(s);
             if(a==null){
                 printWinner(s);
             }
             s.makeMove(a,s.getMaxPlayer());
             printWinner(s);
             printCurrentState(s.getState());
-
-            count++;
         }
     }
     public static void printCurrentState(Player[][] players ){
@@ -57,13 +65,4 @@ public class TicTacToe {
             System.exit(0);
         }
     }
-    public static Player[][] copyArray(Player[][] board){
-        Player a[][]=new Player[board.length][board[0].length];
-        for(int i=0;i<a.length;i++){
-            for(int j=0;j<a.length;j++){
-                a[i][j]=board[i][j];
-            }
-        }
-        return a;
     }
-}

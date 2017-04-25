@@ -16,21 +16,22 @@ public class State {
     public State(int size, Player maxPlayer, Player minPlayer) {
         this.size = size;
         this.state = new Player[size][size];
-        for(int i=0;i<size;i++){
-            for(int j=0;j<size;j++){
-                this.state[i][j]=Player.B;
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                this.state[i][j] = Player.B;
             }
         }
         this.maxPlayer = maxPlayer;
         actions = new ArrayList<>();
-        this.minPlayer=minPlayer;
+        this.minPlayer = minPlayer;
     }
-    public State(int size, Player maxPlayer, Player minPlayer,Player[][] board) {
+
+    public State(int size, Player maxPlayer, Player minPlayer, Player[][] board) {
         this.size = size;
-        this.state=board;
+        this.state = board;
         this.maxPlayer = maxPlayer;
         actions = new ArrayList<>();
-        this.minPlayer=minPlayer;
+        this.minPlayer = minPlayer;
     }
 
     public Player getMaxPlayer() {
@@ -55,9 +56,17 @@ public class State {
     }
 
 
-    public void makeMove(Action action,Player p) {
+    public void makeMove(Action action, Player p) {
+        //if(state[action.getX()][action.getY()]!=Player.B){
+        //  throw new IllegalArgumentException("Illegal move");
+        //}
         this.state[action.getX()][action.getY()] = p;
     }
+
+    public void resetMove(Action action) {
+        this.state[action.getX()][action.getY()] = Player.B;
+    }
+
     public ArrayList<Action> getAvailableActions() {
         ArrayList<Action> actions = new ArrayList<>();
         for (int i = 0; i < size; ++i) {
@@ -68,5 +77,13 @@ public class State {
             }
         }
         return actions;
+    }
+
+    public void setState(Player[][] board) {
+        for (int i = 0; i < size; ++i) {
+            for (int j = 0; j < size; j++) {
+                this.state[i][j] = board[i][j];
+            }
+        }
     }
 }
