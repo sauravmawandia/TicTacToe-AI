@@ -22,7 +22,7 @@ public class AlphaBeta {
         cutOffOccurred=false;
         cutOffTime = System.currentTimeMillis() + 8000;
         this.minimaxAlphaBetaPruning(currentNode, TicTacToe.O_WINS,TicTacToe.X_WINS);
-        Node newNode = ticTacToe.getMaxNodeInList(possibleNextMoveNodes);
+        Node newNode = getMaxNodeInList(possibleNextMoveNodes);
         possibleNextMoveNodes.removeAllElements();
         if(cutOffOccurred){
             System.out.println("CutOff occurred");
@@ -35,26 +35,17 @@ public class AlphaBeta {
         int betaOfCurrentNode = beta;
         if (ticTacToe.isLeafNode(currentNode))
             return this.miniMaxLeafNode(currentNode);
-        else if (currentNode.nextPlayer == Player.O)
+        else if (currentNode.nextPlayer == Player.X)
             return this.maxValue(currentNode, alphaOfCurrentNode, betaOfCurrentNode);
         else return this.minValue(currentNode, alphaOfCurrentNode, betaOfCurrentNode);
     }
-
     public int maxValue(Node currentNode, int alphaOfCurrentNode, int betaOfCurrentNode) {
-        Vector<Node> allSuccessors = ticTacToe.getAllSuccessors(currentNode);
-        for (int atIndex = 0; atIndex < allSuccessors.size(); atIndex++) {
-            Node aSuccessor = allSuccessors.get(atIndex);
-            int currentMin = this.minimaxAlphaBetaPruning(aSuccessor, alphaOfCurrentNode, betaOfCurrentNode);
-            betaOfCurrentNode = Integer.min(betaOfCurrentNode, currentMin);
+        if(System.currentTimeMillis()>cutOffTime){
+            currentNode.heuristicValue=Integer.max(heuristic.heuristicValue(currentNode),alphaOfCurrentNode);
+            alphaOfCurrentNode=currentNode.heuristicValue;
+            return alphaOfCurrentNode;
 
-            currentNode.heuristicValue = Integer.min(currentNode.heuristicValue, betaOfCurrentNode);
-            if (alphaOfCurrentNode >= betaOfCurrentNode) break;
         }
-        if (this.possibleNextMoveNodes(currentNode) != null) possibleNextMoveNodes.add(currentNode);
-        return betaOfCurrentNode;
-    }
-
-    public int minValue(Node currentNode, int alphaOfCurrentNode, int betaOfCurrentNode) {
         Vector<Node> allSuccessors = ticTacToe.getAllSuccessors(currentNode);
         for (int atIndex = 0; atIndex < allSuccessors.size(); atIndex++) {
             Node aSuccessor = allSuccessors.get(atIndex);
@@ -66,6 +57,26 @@ public class AlphaBeta {
         if (this.possibleNextMoveNodes(currentNode) != null) possibleNextMoveNodes.add(currentNode);
         return alphaOfCurrentNode;
     }
+
+    public int minValue(Node currentNode, int alphaOfCurrentNode, int betaOfCurrentNode) {
+        if(System.currentTimeMillis()>cutOffTime){
+            currentNode.heuristicValue=Integer.min(heuristic.heuristicValue(currentNode),betaOfCurrentNode);
+            betaOfCurrentNode=currentNode.heuristicValue;
+            return betaOfCurrentNode;
+        }
+        Vector<Node> allSuccessors = ticTacToe.getAllSuccessors(currentNode);
+        for (int atIndex = 0; atIndex < allSuccessors.size(); atIndex++) {
+            Node aSuccessor = allSuccessors.get(atIndex);
+            int v = this.minimaxAlphaBetaPruning(aSuccessor, alphaOfCurrentNode, betaOfCurrentNode);
+            betaOfCurrentNode = Integer.min(betaOfCurrentNode, v);
+            currentNode.heuristicValue = Integer.min(currentNode.heuristicValue, betaOfCurrentNode);
+            if (alphaOfCurrentNode >= betaOfCurrentNode) break;
+        }
+        if (this.possibleNextMoveNodes(currentNode) != null) possibleNextMoveNodes.add(currentNode);
+        return betaOfCurrentNode;
+    }
+
+
 
     // Get next move
     public Node possibleNextMoveNodes(Node currentNode) {
@@ -79,5 +90,11 @@ public class AlphaBeta {
             possibleNextMoveNodes.add(currentNode);
         return ticTacToe.getUtilityOfState(currentNode);
     }
-
+    public Node getMaxNodeInList(Vector<Node> aVectorNode) {
+        Node maxNode = aVectorNode.get(0);
+        int listSize = aVectorNode.size();
+        for (int index = 0; index < listSize; index++)
+            if (maxNode.heuristicValue < aVectorNode.get(index).heuristicValue) maxNode = aVectorNode.get(index);
+        return maxNode;
+    }
 }
