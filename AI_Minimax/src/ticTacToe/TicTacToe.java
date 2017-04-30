@@ -170,11 +170,5 @@ public class TicTacToe {
         return minNode;
     }
 
-    public Node getMaxNodeInList(Vector<Node> aVectorNode) {
-        Node maxNode = aVectorNode.get(0);
-        int listSize = aVectorNode.size();
-        for (int index = 0; index < listSize; index++)
-            if (maxNode.heuristicValue < aVectorNode.get(index).heuristicValue) maxNode = aVectorNode.get(index);
-        return maxNode;
-    }
+
 }

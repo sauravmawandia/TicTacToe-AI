@@ -20,3 +20,5 @@ AI_Minimax/out/production/AI_Minimax/ticTacToe/Game.class
 AI_Minimax/out/production/AI_Minimax/ticTacToe/Node.class
 AI_Minimax/out/production/AI_Minimax/ticTacToe/Player.class
 AI_Minimax/out/production/AI_Minimax/ticTacToe/TicTacToe.class
+AI_Minimax/out/production/AI_Minimax/ticTacToe/GUI$ButtonListner.class
+*.class
