@@ -11,3 +11,12 @@ out/production/TicTacToe/ticTacToe/State.class
 out/production/TicTacToe/ticTacToe/TerminalTest.class
 TicTacToe.iml
 out/production/TicTacToe/ticTacToe/TicTacToe.class
+AI_Minimax/.idea/misc.xml
+AI_Minimax/.idea/modules.xml
+AI_Minimax/.idea/workspace.xml
+AI_Minimax/AI_Minimax.iml
+AI_Minimax/out/production/AI_Minimax/ticTacToe/AlphaBeta.class
+AI_Minimax/out/production/AI_Minimax/ticTacToe/Game.class
+AI_Minimax/out/production/AI_Minimax/ticTacToe/Node.class
+AI_Minimax/out/production/AI_Minimax/ticTacToe/Player.class
+AI_Minimax/out/production/AI_Minimax/ticTacToe/TicTacToe.class
