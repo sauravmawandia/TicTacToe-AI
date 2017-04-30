@@ -21,7 +21,7 @@ public class Game {
     }
     public void gamePlay() {
         Node root = ticTacToe.initializeNode();
-        ticTacToe.outputBoard(root.board);
+        this.outputBoard(root.board);
         int player = this.getPlayer();
         if(player == 1) { root.nextPlayer = Player.O; this.humanMove(root); }
         else { root.nextPlayer = Player.X; this.machineMove(root); }
@@ -55,16 +55,16 @@ public class Game {
         Node newNode = new Node();
         int[] humanInput = this.getCorrectInputFromHumanMove(currentNode);
         newNode = ticTacToe.getSuccessor(currentNode, humanInput);
-        ticTacToe.outputBoard(newNode.board);
-        if(ticTacToe.checkWin(newNode)==true) System.out.println("Congratulations. You won!");
+        this.outputBoard(newNode.board);
+        if(ticTacToe.terminalTest(newNode)==true) System.out.println("Congratulations. You won!");
         else if(ticTacToe.isLeafNode(newNode) == true)  System.out.println("The game is draw");
         else this.machineMove(newNode);
     }
     public void machineMove(Node currentNode) {
         Node newNode = ticTacToe.initializeNodeWithInput(currentNode.board);
         newNode = alphaBeta.nextNodeToMove(newNode);
-        ticTacToe.outputBoard(newNode.board);
-        if(ticTacToe.checkWin(newNode) == true) System.out.println("Computer won!");
+        this.outputBoard(newNode.board);
+        if(ticTacToe.terminalTest(newNode) == true) System.out.println("Computer won!");
         else if(ticTacToe.isLeafNode(newNode) == true)  System.out.println("The game is draw");
         else this.humanMove(newNode);
     }
@@ -77,6 +77,23 @@ public class Game {
 
     public boolean checkEmptySquareFromHumanInput(Node currentNode, int[] humanInput) {
         return currentNode.board[humanInput[0]][humanInput[1]] == Player.B;
+    }
+    // Output game board
+    public void outputBoard(Player[][] board) {
+        int boardSize = board.length;
+        System.out.println("Current Board is: ");
+        System.out.print("-----------------");
+        System.out.println();
+        for(int row = 0; row < boardSize; row++) {
+            System.out.print("|");
+            for(int column = 0; column < boardSize; column++) {
+                if(board[row][column] == Player.B) System.out.print("  "+" |");
+                else System.out.print(" "+board[row][column] +" |");
+            }
+            System.out.println();
+            System.out.print("------------------");
+            System.out.println();
+        }
     }
 
 

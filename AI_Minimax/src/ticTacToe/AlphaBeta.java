@@ -7,77 +7,77 @@ import java.util.Vector;
  */
 public class AlphaBeta {
     private final TicTacToe ticTacToe;
+    private final Heuristic heuristic;
     Vector<Node> possibleNextMoveNodes = new Vector<Node>();
-    public int getMinimax(Node currentNode) {
-        if(ticTacToe.isLeafNode(currentNode)==true) return this.miniMaxLeafNode(currentNode);
-        else return this.miniMaxNonLeafNode(currentNode);
+    private long cutOffTime;
+    private boolean cutOffOccurred;
+
+
+    public AlphaBeta() {
+        ticTacToe = new TicTacToe();
+        heuristic = new Heuristic();
     }
-    public int miniMaxNonLeafNode(Node currentNode) {
-        Vector<Node> allSuccessors = ticTacToe.getAllSuccessors(currentNode);
-        for(int atIndex = 0; atIndex < allSuccessors.size(); atIndex++) {
-            Node aSuccessor = allSuccessors.get(atIndex);
-            if(currentNode.nextPlayer == Player.O) currentNode.heuristicValue = ticTacToe.getMinTwoIntegers(currentNode.heuristicValue, this.getMinimax(aSuccessor));
-            else currentNode.heuristicValue = ticTacToe.getMaxTwoIntegers(currentNode.heuristicValue, this.getMinimax(aSuccessor));
+
+    public Node nextNodeToMove(Node currentNode) {
+        cutOffOccurred=false;
+        cutOffTime = System.currentTimeMillis() + 8000;
+        this.minimaxAlphaBetaPruning(currentNode, TicTacToe.O_WINS,TicTacToe.X_WINS);
+        Node newNode = ticTacToe.getMaxNodeInList(possibleNextMoveNodes);
+        possibleNextMoveNodes.removeAllElements();
+        if(cutOffOccurred){
+            System.out.println("CutOff occurred");
         }
-        if(this.possibleNextMoveNodes(currentNode)!=null) possibleNextMoveNodes.add(currentNode);
-        return currentNode.heuristicValue;
+        return newNode;
     }
-    public int miniMaxLeafNode(Node currentNode){
-        if(this.possibleNextMoveNodes(currentNode)!=null) possibleNextMoveNodes.add(currentNode);
-        return ticTacToe.evaluateHeuristicValue(currentNode);
-    }
-    public AlphaBeta(){
-        ticTacToe=new TicTacToe();
-    }
-    public int initializeAlpha(Node currentNode) {
-        if(ticTacToe.isLeafNode(currentNode)==true) return ticTacToe.evaluateHeuristicValue(currentNode);
-        else return -TicTacToe.INFINITY;
-    }
-    public int initializeBeta(Node currentNode) {
-        if(ticTacToe.isLeafNode(currentNode)==true) return ticTacToe.evaluateHeuristicValue(currentNode);
-        else return TicTacToe.INFINITY;
-    }
+
     public int minimaxAlphaBetaPruning(Node currentNode, int alpha, int beta) {
-        int alphaOfCurrentNode = alpha; int betaOfCurrentNode = beta;
-        if (ticTacToe.isLeafNode(currentNode)==true)  return this.miniMaxLeafNode(currentNode);
-        else if (currentNode.nextPlayer == Player.O) return this.minimaxAlpha_CurrentMaxNode(currentNode, alphaOfCurrentNode, betaOfCurrentNode);
-        else return this.minimaxBeta_CurrentMinNode(currentNode, alphaOfCurrentNode, betaOfCurrentNode);
+        int alphaOfCurrentNode = alpha;
+        int betaOfCurrentNode = beta;
+        if (ticTacToe.isLeafNode(currentNode))
+            return this.miniMaxLeafNode(currentNode);
+        else if (currentNode.nextPlayer == Player.O)
+            return this.maxValue(currentNode, alphaOfCurrentNode, betaOfCurrentNode);
+        else return this.minValue(currentNode, alphaOfCurrentNode, betaOfCurrentNode);
     }
-    public int minimaxAlpha_CurrentMaxNode(Node currentNode, int alphaOfCurrentNode, int betaOfCurrentNode) {
+
+    public int maxValue(Node currentNode, int alphaOfCurrentNode, int betaOfCurrentNode) {
         Vector<Node> allSuccessors = ticTacToe.getAllSuccessors(currentNode);
-        for(int atIndex = 0; atIndex < allSuccessors.size(); atIndex++) {
+        for (int atIndex = 0; atIndex < allSuccessors.size(); atIndex++) {
             Node aSuccessor = allSuccessors.get(atIndex);
             int currentMin = this.minimaxAlphaBetaPruning(aSuccessor, alphaOfCurrentNode, betaOfCurrentNode);
-            betaOfCurrentNode = ticTacToe.getMinTwoIntegers(betaOfCurrentNode, currentMin);
-            currentNode.heuristicValue = ticTacToe.getMinTwoIntegers(currentNode.heuristicValue, betaOfCurrentNode);
-            if(alphaOfCurrentNode >= betaOfCurrentNode) break;
+            betaOfCurrentNode = Integer.min(betaOfCurrentNode, currentMin);
+
+            currentNode.heuristicValue = Integer.min(currentNode.heuristicValue, betaOfCurrentNode);
+            if (alphaOfCurrentNode >= betaOfCurrentNode) break;
         }
-        if(this.possibleNextMoveNodes(currentNode)!=null) possibleNextMoveNodes.add(currentNode);
+        if (this.possibleNextMoveNodes(currentNode) != null) possibleNextMoveNodes.add(currentNode);
         return betaOfCurrentNode;
     }
-    public int minimaxBeta_CurrentMinNode(Node currentNode, int alphaOfCurrentNode, int betaOfCurrentNode) {
+
+    public int minValue(Node currentNode, int alphaOfCurrentNode, int betaOfCurrentNode) {
         Vector<Node> allSuccessors = ticTacToe.getAllSuccessors(currentNode);
-        for(int atIndex = 0; atIndex < allSuccessors.size(); atIndex++) {
+        for (int atIndex = 0; atIndex < allSuccessors.size(); atIndex++) {
             Node aSuccessor = allSuccessors.get(atIndex);
             int currentMax = this.minimaxAlphaBetaPruning(aSuccessor, alphaOfCurrentNode, betaOfCurrentNode);
-            alphaOfCurrentNode = ticTacToe.getMaxTwoIntegers(alphaOfCurrentNode, currentMax);
-            currentNode.heuristicValue = ticTacToe.getMaxTwoIntegers(currentNode.heuristicValue,alphaOfCurrentNode);
-            if(alphaOfCurrentNode >= betaOfCurrentNode) break;
+            alphaOfCurrentNode = Integer.max(alphaOfCurrentNode, currentMax);
+            currentNode.heuristicValue = Integer.max(currentNode.heuristicValue, alphaOfCurrentNode);
+            if (alphaOfCurrentNode >= betaOfCurrentNode) break;
         }
-        if(this.possibleNextMoveNodes(currentNode)!=null) possibleNextMoveNodes.add(currentNode);
+        if (this.possibleNextMoveNodes(currentNode) != null) possibleNextMoveNodes.add(currentNode);
         return alphaOfCurrentNode;
     }
 
     // Get next move
-    public Node possibleNextMoveNodes (Node currentNode) {
-        if(currentNode.atDepth == 1) return currentNode;
-        else return null;
+    public Node possibleNextMoveNodes(Node currentNode) {
+        if (currentNode.atDepth == 1) return currentNode;
+        else
+            return null;
     }
-    public Node nextNodeToMove(Node currentNode) {
-        //this.getMinimax(currentNode);		// Change this to see how different between two algorithms.
-        this.minimaxAlphaBetaPruning(currentNode, this.initializeAlpha(currentNode), this.initializeBeta(currentNode));
-        Node newNode = ticTacToe.getMaxNodeInList(possibleNextMoveNodes);
-        possibleNextMoveNodes.removeAllElements();
-        return newNode;
+
+    public int miniMaxLeafNode(Node currentNode) {
+        if (this.possibleNextMoveNodes(currentNode) != null)
+            possibleNextMoveNodes.add(currentNode);
+        return ticTacToe.getUtilityOfState(currentNode);
     }
+
 }

@@ -4,7 +4,7 @@ package ticTacToe;
  * Created by saura on 4/29/2017.
  */
 public class Node {
-    Player[][] board = new Player[3][3];
+    Player[][] board = new Player[4][4];
     Player nextPlayer;
     Node parent;
     int heuristicValue;

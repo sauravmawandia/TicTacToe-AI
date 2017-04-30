@@ -4,41 +4,43 @@ package ticTacToe;
  * Created by saura on 4/15/2017.
  */
 public class TerminalTest {
-    public static boolean terminalOrNot(State s){
+    public  boolean terminalOrNot(Node n){
         boolean flag=true;
         outerloop:
-        for(int i=0;i<s.getSize();i++){
-            for(int j=0;j<s.getSize();j++){
-                if(s.getPlayerInPos(i,j)==Player.B){
+        for(int i=0;i<n.board.length;i++){
+            for(int j=0;j<n.board.length;j++){
+                if(n.board[i][j]==Player.B){
                     flag=false;
                     break outerloop;
                 }
             }
         }
-        return hasWon(Player.X,s)||hasWon(Player.O,s)||flag;
+        return flag;
     }
 
-
-    public static int getUtility(State s) {
-        if (hasWon(Player.X,s)) {
-            return 1000;
-        } else if (hasWon(Player.O,s)) {
-            return -1000;
+    public int getUtility(Node n) {
+        if (hasWon(Player.X,n)) {
+            return -1;
+        } else if (hasWon(Player.O,n)) {
+            return 1;
         } else {
             return 0;
         }
     }
-
-    public static boolean hasWon(Player player ,State s) {
-        int size=s.getSize();
-        Player[][] board=s.getState();
+    public  boolean hasWon(Player player,Node n) {
+        int size=n.board.length;
+        Player[][] board=n.board;
         if(size==3) {
-            if ((board[0][0] == board[1][1] && board[0][0] == board[2][2] && board[0][0] == player) || (board[0][2] == board[1][1] && board[0][2] == board[2][0] && board[0][2] == player)) {
+            if ((board[0][0] == board[1][1] && board[0][0] == board[2][2] && board[0][0] == player)
+                    || (board[0][2] == board[1][1] && board[0][2] == board[2][0] && board[0][2] == player)) {
+
                 return true;
             }
-            for (int i = 0; i < 3; ++i) {
-                if ((board[i][0] == board[i][1] && board[i][0] == board[i][2] && board[i][0] == player)
-                        || (board[0][i] == board[1][i] && board[0][i] == board[2][i] && board[0][i] == player)) {
+            for (int i = 0; i < 3; i++) {
+                if ((board[i][0] == board[i][1] && board[i][0] == board[i][2] && board[i][0] == player)) {
+                    return true;
+                }
+                else if (board[0][i] == board[1][i] && board[0][i] == board[2][i] && board[0][i] == player){
                     return true;
                 }
             }
