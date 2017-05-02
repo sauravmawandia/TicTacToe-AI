@@ -73,6 +73,7 @@ public class GUI extends JPanel {
             return newNode;
         }
         public Node humanMove(Node n,int[] humanInput){
+            JButton action=new JButton("C");
 
             System.out.println(humanInput[0]+" "+humanInput[1]);
             Node newNode = new Node();

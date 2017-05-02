@@ -7,7 +7,7 @@ public class Heuristic {
     public int heuristicValue(Node node){
         //Game g=new Game();
         //g.outputBoard(node.board);
-        System.out.println(heuristicCalculator(node,Player.X)-heuristicCalculator(node,Player.O));
+        //System.out.println(heuristicCalculator(node,Player.X)-heuristicCalculator(node,Player.O));
         return heuristicCalculator(node,Player.X)-heuristicCalculator(node,Player.O);
     }
     private int heuristicCalculator(Node node,Player p){
