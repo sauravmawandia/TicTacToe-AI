@@ -76,6 +76,12 @@ public class AlphaBeta {
         }
     }
     public int maxValue(Node currentNode, int alphaOfCurrentNode, int betaOfCurrentNode) {
+        if(System.currentTimeMillis()>cutOffTime){
+            currentNode.heuristicValue=Integer.max(heuristic.heuristicValue(currentNode),alphaOfCurrentNode);
+            alphaOfCurrentNode=currentNode.heuristicValue;
+            return alphaOfCurrentNode;
+
+        }
         Vector<Node> allSuccessors = ticTacToe.getAllSuccessors(currentNode);
         for (int atIndex = 0; atIndex < allSuccessors.size(); atIndex++) {
             Node aSuccessor = allSuccessors.get(atIndex);
@@ -92,6 +98,11 @@ public class AlphaBeta {
     }
 
     public int minValue(Node currentNode, int alphaOfCurrentNode, int betaOfCurrentNode) {
+        if(System.currentTimeMillis()>cutOffTime){
+            currentNode.heuristicValue=Integer.min(heuristic.heuristicValue(currentNode),betaOfCurrentNode);
+            betaOfCurrentNode=currentNode.heuristicValue;
+            return betaOfCurrentNode;
+        }
         Vector<Node> allSuccessors = ticTacToe.getAllSuccessors(currentNode);
         for (int atIndex = 0; atIndex < allSuccessors.size(); atIndex++) {
             Node aSuccessor = allSuccessors.get(atIndex);
