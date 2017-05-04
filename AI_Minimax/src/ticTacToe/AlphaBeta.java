@@ -6,6 +6,7 @@ import java.util.Vector;
  * Created by saura on 4/19/2017.
  */
 public class AlphaBeta {
+    private static final int CUT_OFF_TIME=12000;
     private final GameBoard gameBoard;
     private final Heuristic heuristic;
     Vector<State> possibleNextMoveStates;
@@ -31,7 +32,7 @@ public class AlphaBeta {
         pruningMax = 0;
         pruningMin = 0;
         nodesGenerated = 0;
-        cutOffTime = System.currentTimeMillis() + 8000;
+        cutOffTime = System.currentTimeMillis() + CUT_OFF_TIME;
     }
 
     //print statistics
