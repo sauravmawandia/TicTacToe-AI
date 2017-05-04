@@ -15,8 +15,7 @@ public class GUI extends JPanel {
     Game game = new Game();
     HashMap<Integer, Integer> x = new HashMap();
     HashMap<Integer, Integer> y = new HashMap();
-    BoardNode root = gameBoard.initializeNode();
-
+    BoardNode root = gameBoard.initializeAllNode();
 
 
     JButton buttons[] = new JButton[16];
@@ -38,6 +37,16 @@ public class GUI extends JPanel {
 
     }
 
+    public static void main(String[] args) {
+        JFrame window = new JFrame("Tic-Tac-Toe");
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.getContentPane().add(new GUI());
+        window.setBounds(300, 200, 300, 300);
+        window.setVisible(true);
+        GUI g = new GUI();
+
+    }
+
     public void initializebuttons() {
         for (int i = 0; i <= 15; i++) {
             buttons[i] = new JButton();
@@ -49,7 +58,7 @@ public class GUI extends JPanel {
     }
 
     public void resetButtons() {
-        root = gameBoard.initializeNode();
+        root = gameBoard.initializeAllNode();
         for (int i = 0; i <= 15; i++) {
             buttons[i].setText("");
         }
@@ -61,17 +70,6 @@ public class GUI extends JPanel {
             int[] humanInput = {y.get(buttonClicked.getY()), x.get(buttonClicked.getX())};
             buttonClicked.setText("O");
         }
-
-    }
-
-
-    public static void main(String[] args) {
-        JFrame window = new JFrame("Tic-Tac-Toe");
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.getContentPane().add(new GUI());
-        window.setBounds(300, 200, 300, 300);
-        window.setVisible(true);
-        GUI g = new GUI();
 
     }
 
