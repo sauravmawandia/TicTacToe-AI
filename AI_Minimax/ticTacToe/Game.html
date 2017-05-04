@@ -171,11 +171,11 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>int[]</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../ticTacToe/Game.html#checkIfHumanMoveIsValid-ticTacToe.BoardNode-">checkIfHumanMoveIsValid</a></span>(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentBoardNode)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../ticTacToe/Game.html#checkIfHumanMoveIsValid-ticTacToe.State-">checkIfHumanMoveIsValid</a></span>(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentState)</code>&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../ticTacToe/Game.html#computerMove-ticTacToe.BoardNode-">computerMove</a></span>(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentBoardNode)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../ticTacToe/Game.html#computerMove-ticTacToe.State-">computerMove</a></span>(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentState)</code>&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
@@ -195,7 +195,7 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../ticTacToe/Game.html#humanMove-ticTacToe.BoardNode-int-">humanMove</a></span>(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentBoardNode,
+<td class="colLast"><code><span class="memberNameLink"><a href="../ticTacToe/Game.html#humanMove-ticTacToe.State-int-">humanMove</a></span>(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentState,
          int&nbsp;level)</code>&nbsp;</td>
 </tr>
 <tr id="i7" class="rowColor">
@@ -204,7 +204,7 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../ticTacToe/Game.html#mediumLevelComputerMove-ticTacToe.BoardNode-">mediumLevelComputerMove</a></span>(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentBoardNode)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../ticTacToe/Game.html#mediumLevelComputerMove-ticTacToe.State-">mediumLevelComputerMove</a></span>(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentState)</code>&nbsp;</td>
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>void</code></td>
@@ -212,7 +212,7 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../ticTacToe/Game.html#randomComputerMove-ticTacToe.BoardNode-">randomComputerMove</a></span>(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentBoardNode)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../ticTacToe/Game.html#randomComputerMove-ticTacToe.State-">randomComputerMove</a></span>(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentState)</code>&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -317,7 +317,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>checkIfHumanMoveIsValid</h4>
-<pre>public&nbsp;int[]&nbsp;checkIfHumanMoveIsValid(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentBoardNode)</pre>
+<pre>public&nbsp;int[]&nbsp;checkIfHumanMoveIsValid(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentState)</pre>
 </li>
 </ul>
 <a name="humanMove-ticTacToe.BoardNode-int-">
@@ -326,7 +326,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>humanMove</h4>
-<pre>public&nbsp;void&nbsp;humanMove(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentBoardNode,
+<pre>public&nbsp;void&nbsp;humanMove(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentState,
                       int&nbsp;level)</pre>
 </li>
 </ul>
@@ -336,7 +336,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>randomComputerMove</h4>
-<pre>public&nbsp;void&nbsp;randomComputerMove(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentBoardNode)</pre>
+<pre>public&nbsp;void&nbsp;randomComputerMove(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentState)</pre>
 </li>
 </ul>
 <a name="mediumLevelComputerMove-ticTacToe.BoardNode-">
@@ -345,7 +345,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>mediumLevelComputerMove</h4>
-<pre>public&nbsp;void&nbsp;mediumLevelComputerMove(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentBoardNode)</pre>
+<pre>public&nbsp;void&nbsp;mediumLevelComputerMove(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentState)</pre>
 </li>
 </ul>
 <a name="computerMove-ticTacToe.BoardNode-">
@@ -354,7 +354,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>computerMove</h4>
-<pre>public&nbsp;void&nbsp;computerMove(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentBoardNode)</pre>
+<pre>public&nbsp;void&nbsp;computerMove(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentState)</pre>
 </li>
 </ul>
 <a name="getPlayer--">

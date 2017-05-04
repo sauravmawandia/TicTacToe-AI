@@ -8,7 +8,7 @@ import java.util.Vector;
 public class AlphaBeta {
     private final GameBoard gameBoard;
     private final Heuristic heuristic;
-    Vector<BoardNode> possibleNextMoveBoardNodes;
+    Vector<State> possibleNextMoveStates;
     private volatile long cutOffTime;
     private volatile boolean cutOffOccurred;
     private  int maxDepth;
@@ -20,10 +20,10 @@ public class AlphaBeta {
     public AlphaBeta() {
         gameBoard = new GameBoard();
         heuristic = new Heuristic();
-        possibleNextMoveBoardNodes=new Vector<BoardNode>();
+        possibleNextMoveStates =new Vector<State>();
         initialize();
     }
-
+    // initialize statistics variable
     private void initialize() {
         cutOffOccurred = false;
         maxDepth = 0;
@@ -34,6 +34,7 @@ public class AlphaBeta {
         cutOffTime = System.currentTimeMillis() + 8000;
     }
 
+    //print statistics
     private void printStat() {
         System.out.println("Max Depth reached= " + maxDepth);
         if (cutOffOccurred) {
@@ -44,99 +45,106 @@ public class AlphaBeta {
         System.out.println("Number of Pruning in Min= " + pruningMin);
     }
 
-    public BoardNode nextMove(BoardNode currentBoardNode) {
+    //decide the next move computer will take
+    public State nextMove(State currentState) {
         initialize();
-        this.minimaxAlphaBeta(currentBoardNode, GameBoard.O_WINS, GameBoard.X_WINS);
-        BoardNode newBoardNode = getMaxNodeInList(possibleNextMoveBoardNodes);
-        possibleNextMoveBoardNodes.removeAllElements();
+        this.minimaxAlphaBeta(currentState, GameBoard.O_WINS, GameBoard.X_WINS);
+        State newState = getMaxNodeInList(possibleNextMoveStates);
+        possibleNextMoveStates.removeAllElements();
         printStat();
-        return newBoardNode;
+        return newState;
     }
 
-    public int minimaxAlphaBeta(BoardNode currentBoardNode, int alpha, int beta) {
+    //use minimax algorithm recursively
+    public int minimaxAlphaBeta(State currentState, int alpha, int beta) {
         depth++;
         maxDepth = depth > maxDepth ? depth : maxDepth;
         nodesGenerated++;
 
         int alphaOfCurrentNode = alpha;
         int betaOfCurrentNode = beta;
-        if (gameBoard.isLeafNode(currentBoardNode)) {
+        if (gameBoard.isTerminalState(currentState)) {
             depth = 0;
-            return this.ifLeafNode(currentBoardNode);
+            return this.ifLeafNode(currentState);
         } else if (System.currentTimeMillis() > cutOffTime) {
-            int hval = heuristic.heuristicValue(currentBoardNode);
-            currentBoardNode.heuristicValue = hval;
+            int hval = heuristic.heuristicValue(currentState);
+            currentState.vValue = hval;
             cutOffOccurred = true;
             depth = 0;
             return hval;
-        } else if (currentBoardNode.nextPlayer == Player.X) {
-            return this.maxValue(currentBoardNode, alphaOfCurrentNode, betaOfCurrentNode);
+        } else if (currentState.nextPlayer == Player.X) {
+            return this.maxValue(currentState, alphaOfCurrentNode, betaOfCurrentNode);
         } else {
-            return this.minValue(currentBoardNode, alphaOfCurrentNode, betaOfCurrentNode);
+            return this.minValue(currentState, alphaOfCurrentNode, betaOfCurrentNode);
         }
     }
 
-    public int maxValue(BoardNode currentBoardNode, int alphaOfCurrentNode, int betaOfCurrentNode) {
+    //returns the max value of move
+    public int maxValue(State currentState, int alphaOfCurrentNode, int betaOfCurrentNode) {
         if (System.currentTimeMillis() > cutOffTime) {
-            currentBoardNode.heuristicValue = Integer.max(heuristic.heuristicValue(currentBoardNode), alphaOfCurrentNode);
-            alphaOfCurrentNode = currentBoardNode.heuristicValue;
+            currentState.vValue = Integer.max(heuristic.heuristicValue(currentState), alphaOfCurrentNode);
+            alphaOfCurrentNode = currentState.vValue;
             return alphaOfCurrentNode;
 
         }
-        Vector<BoardNode> allSuccessors = gameBoard.getAllSuccessors(currentBoardNode);
+        Vector<State> allSuccessors = gameBoard.getAllSuccessors(currentState);
         for (int atIndex = 0; atIndex < allSuccessors.size(); atIndex++) {
-            BoardNode aSuccessor = allSuccessors.get(atIndex);
+            State aSuccessor = allSuccessors.get(atIndex);
             int currentMax = this.minimaxAlphaBeta(aSuccessor, alphaOfCurrentNode, betaOfCurrentNode);
             alphaOfCurrentNode = Integer.max(alphaOfCurrentNode, currentMax);
-            currentBoardNode.heuristicValue = Integer.max(currentBoardNode.heuristicValue, alphaOfCurrentNode);
+            currentState.vValue = Integer.max(currentState.vValue, alphaOfCurrentNode);
             if (alphaOfCurrentNode >= betaOfCurrentNode) {
                 pruningMax++;
                 break;
             }
         }
-        if (this.getPossibleMoves(currentBoardNode) != null) possibleNextMoveBoardNodes.add(currentBoardNode);
+        if (this.getPossibleMoves(currentState) != null) possibleNextMoveStates.add(currentState);
         return alphaOfCurrentNode;
     }
 
-    public int minValue(BoardNode currentBoardNode, int alphaOfCurrentNode, int betaOfCurrentNode) {
+    //returns the minValue of move
+    public int minValue(State currentState, int alphaOfCurrentNode, int betaOfCurrentNode) {
         if (System.currentTimeMillis() > cutOffTime) {
-            currentBoardNode.heuristicValue = Integer.min(heuristic.heuristicValue(currentBoardNode), betaOfCurrentNode);
-            betaOfCurrentNode = currentBoardNode.heuristicValue;
+            currentState.vValue = Integer.min(heuristic.heuristicValue(currentState), betaOfCurrentNode);
+            betaOfCurrentNode = currentState.vValue;
             return betaOfCurrentNode;
         }
-        Vector<BoardNode> allSuccessors = gameBoard.getAllSuccessors(currentBoardNode);
+        Vector<State> allSuccessors = gameBoard.getAllSuccessors(currentState);
         for (int atIndex = 0; atIndex < allSuccessors.size(); atIndex++) {
-            BoardNode aSuccessor = allSuccessors.get(atIndex);
+            State aSuccessor = allSuccessors.get(atIndex);
             int v = this.minimaxAlphaBeta(aSuccessor, alphaOfCurrentNode, betaOfCurrentNode);
             betaOfCurrentNode = Integer.min(betaOfCurrentNode, v);
-            currentBoardNode.heuristicValue = Integer.min(currentBoardNode.heuristicValue, betaOfCurrentNode);
+            currentState.vValue = Integer.min(currentState.vValue, betaOfCurrentNode);
             if (alphaOfCurrentNode >= betaOfCurrentNode) {
                 pruningMin++;
                 break;
             }
         }
-        if (this.getPossibleMoves(currentBoardNode) != null) possibleNextMoveBoardNodes.add(currentBoardNode);
+        if (this.getPossibleMoves(currentState) != null) possibleNextMoveStates.add(currentState);
         return betaOfCurrentNode;
     }
 
-    public BoardNode getPossibleMoves(BoardNode currentBoardNode) {
-        if (currentBoardNode.atDepth == 1) return currentBoardNode;
+    //check if more moves are possible
+    public State getPossibleMoves(State currentState) {
+        if (currentState.depth == 1) return currentState;
         else
             return null;
     }
 
-    public int ifLeafNode(BoardNode currentBoardNode) {
-        if (this.getPossibleMoves(currentBoardNode) != null)
-            possibleNextMoveBoardNodes.add(currentBoardNode);
-        return gameBoard.getUtilityOfState(currentBoardNode);
+    //check if current Board node is leaf node
+    public int ifLeafNode(State currentState) {
+        if (this.getPossibleMoves(currentState) != null)
+            possibleNextMoveStates.add(currentState);
+        return gameBoard.getUtilityOfState(currentState);
     }
 
-    public BoardNode getMaxNodeInList(Vector<BoardNode> aVectorBoardNode) {
-        BoardNode maxBoardNode = aVectorBoardNode.get(0);
-        int listSize = aVectorBoardNode.size();
-        for (int index = 0; index < listSize; index++)
-            if (maxBoardNode.heuristicValue < aVectorBoardNode.get(index).heuristicValue)
-                maxBoardNode = aVectorBoardNode.get(index);
-        return maxBoardNode;
+    //get node with lesser heuristic val
+    public State getMaxNodeInList(Vector<State> node) {
+        State maxState = node.get(0);
+        int listSize = node.size();
+        for (int i = 0; i < listSize; i++)
+            if (maxState.vValue < node.get(i).vValue)
+                maxState = node.get(i);
+        return maxState;
     }
 }

@@ -152,33 +152,33 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code><a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../ticTacToe/AlphaBeta.html#getPossibleMoves-ticTacToe.BoardNode-">getPossibleMoves</a></span>(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentBoardNode)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../ticTacToe/AlphaBeta.html#getPossibleMoves-ticTacToe.State-">getPossibleMoves</a></span>(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentState)</code>&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../ticTacToe/AlphaBeta.html#ifLeafNode-ticTacToe.BoardNode-">ifLeafNode</a></span>(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentBoardNode)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../ticTacToe/AlphaBeta.html#ifLeafNode-ticTacToe.State-">ifLeafNode</a></span>(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentState)</code>&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../ticTacToe/AlphaBeta.html#maxValue-ticTacToe.BoardNode-int-int-">maxValue</a></span>(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentBoardNode,
+<td class="colLast"><code><span class="memberNameLink"><a href="../ticTacToe/AlphaBeta.html#maxValue-ticTacToe.State-int-int-">maxValue</a></span>(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentState,
         int&nbsp;alphaOfCurrentNode,
         int&nbsp;betaOfCurrentNode)</code>&nbsp;</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../ticTacToe/AlphaBeta.html#minimaxAlphaBeta-ticTacToe.BoardNode-int-int-">minimaxAlphaBeta</a></span>(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentBoardNode,
+<td class="colLast"><code><span class="memberNameLink"><a href="../ticTacToe/AlphaBeta.html#minimaxAlphaBeta-ticTacToe.State-int-int-">minimaxAlphaBeta</a></span>(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentState,
                 int&nbsp;alpha,
                 int&nbsp;beta)</code>&nbsp;</td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../ticTacToe/AlphaBeta.html#minValue-ticTacToe.BoardNode-int-int-">minValue</a></span>(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentBoardNode,
+<td class="colLast"><code><span class="memberNameLink"><a href="../ticTacToe/AlphaBeta.html#minValue-ticTacToe.State-int-int-">minValue</a></span>(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentState,
         int&nbsp;alphaOfCurrentNode,
         int&nbsp;betaOfCurrentNode)</code>&nbsp;</td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code><a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../ticTacToe/AlphaBeta.html#nextMove-ticTacToe.BoardNode-">nextMove</a></span>(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentBoardNode)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../ticTacToe/AlphaBeta.html#nextMove-ticTacToe.State-">nextMove</a></span>(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentState)</code>&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -225,7 +225,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>nextMove</h4>
-<pre>public&nbsp;<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;nextMove(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentBoardNode)</pre>
+<pre>public&nbsp;<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;nextMove(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentState)</pre>
 </li>
 </ul>
 <a name="minimaxAlphaBeta-ticTacToe.BoardNode-int-int-">
@@ -234,7 +234,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>minimaxAlphaBeta</h4>
-<pre>public&nbsp;int&nbsp;minimaxAlphaBeta(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentBoardNode,
+<pre>public&nbsp;int&nbsp;minimaxAlphaBeta(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentState,
                             int&nbsp;alpha,
                             int&nbsp;beta)</pre>
 </li>
@@ -245,7 +245,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>maxValue</h4>
-<pre>public&nbsp;int&nbsp;maxValue(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentBoardNode,
+<pre>public&nbsp;int&nbsp;maxValue(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentState,
                     int&nbsp;alphaOfCurrentNode,
                     int&nbsp;betaOfCurrentNode)</pre>
 </li>
@@ -256,7 +256,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>minValue</h4>
-<pre>public&nbsp;int&nbsp;minValue(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentBoardNode,
+<pre>public&nbsp;int&nbsp;minValue(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentState,
                     int&nbsp;alphaOfCurrentNode,
                     int&nbsp;betaOfCurrentNode)</pre>
 </li>
@@ -267,7 +267,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getPossibleMoves</h4>
-<pre>public&nbsp;<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;getPossibleMoves(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentBoardNode)</pre>
+<pre>public&nbsp;<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;getPossibleMoves(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentState)</pre>
 </li>
 </ul>
 <a name="ifLeafNode-ticTacToe.BoardNode-">
@@ -276,7 +276,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>ifLeafNode</h4>
-<pre>public&nbsp;int&nbsp;ifLeafNode(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentBoardNode)</pre>
+<pre>public&nbsp;int&nbsp;ifLeafNode(<a href="../ticTacToe/BoardNode.html" title="class in ticTacToe">BoardNode</a>&nbsp;currentState)</pre>
 </li>
 </ul>
 <a name="getMaxNodeInList-java.util.Vector-">

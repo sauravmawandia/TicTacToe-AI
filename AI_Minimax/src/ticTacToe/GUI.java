@@ -15,7 +15,7 @@ public class GUI extends JPanel {
     Game game = new Game();
     HashMap<Integer, Integer> x = new HashMap();
     HashMap<Integer, Integer> y = new HashMap();
-    BoardNode root = gameBoard.initializeAllNode();
+    State root = gameBoard.initializeAllState();
 
 
     JButton buttons[] = new JButton[16];
@@ -58,7 +58,7 @@ public class GUI extends JPanel {
     }
 
     public void resetButtons() {
-        root = gameBoard.initializeAllNode();
+        root = gameBoard.initializeAllState();
         for (int i = 0; i <= 15; i++) {
             buttons[i].setText("");
         }
