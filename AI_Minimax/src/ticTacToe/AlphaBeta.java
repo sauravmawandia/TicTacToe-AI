@@ -8,19 +8,20 @@ import java.util.Vector;
 public class AlphaBeta {
     private final GameBoard gameBoard;
     private final Heuristic heuristic;
-    Vector<BoardNode> possibleNextMoveBoardNodes = new Vector<BoardNode>();
-    private long cutOffTime;
-    private boolean cutOffOccurred;
-    private int maxDepth;
-    private int depth;
+    Vector<BoardNode> possibleNextMoveBoardNodes;
+    private volatile long cutOffTime;
+    private volatile boolean cutOffOccurred;
+    private  int maxDepth;
+    private  int depth;
     private int pruningMax;
     private int pruningMin;
     private int nodesGenerated;
 
-
     public AlphaBeta() {
         gameBoard = new GameBoard();
         heuristic = new Heuristic();
+        possibleNextMoveBoardNodes=new Vector<BoardNode>();
+        initialize();
     }
 
     private void initialize() {

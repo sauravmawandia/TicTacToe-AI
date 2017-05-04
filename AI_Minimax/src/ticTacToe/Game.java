@@ -9,8 +9,8 @@ import java.util.Vector;
  * Created by saura on 4/19/2017.
  */
 public class Game {
-    public final GameBoard gameBoard;
-    public final AlphaBeta alphaBeta;
+    private final GameBoard gameBoard;
+    private final AlphaBeta alphaBeta;
     private final Random random;
 
     public Game() {

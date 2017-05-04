@@ -14,9 +14,6 @@ public class GameBoard {
     public static int O_WINS = -1000;
     public static int DRAW = 0;
 
-    public GameBoard() {
-    }
-
     public BoardNode initializeAllNode() {
         return new BoardNode();
     }
