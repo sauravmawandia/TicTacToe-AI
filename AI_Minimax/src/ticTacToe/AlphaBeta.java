@@ -68,11 +68,9 @@ public class AlphaBeta {
             depth = 0;
             return this.ifLeafNode(currentState);
         } else if (System.currentTimeMillis() > cutOffTime) {
-            int hval = heuristic.heuristicValue(currentState);
-            currentState.vValue = hval;
             cutOffOccurred = true;
             depth = 0;
-            return hval;
+            return heuristic.heuristicValue(currentState);
         } else if (currentState.nextPlayer == Player.X) {
             return this.maxValue(currentState, alphaOfCurrentNode, betaOfCurrentNode);
         } else {
@@ -82,12 +80,6 @@ public class AlphaBeta {
 
     //returns the max value of move
     public int maxValue(State currentState, int alphaOfCurrentNode, int betaOfCurrentNode) {
-        if (System.currentTimeMillis() > cutOffTime) {
-            currentState.vValue = Integer.max(heuristic.heuristicValue(currentState), alphaOfCurrentNode);
-            alphaOfCurrentNode = currentState.vValue;
-            return alphaOfCurrentNode;
-
-        }
         Vector<State> allSuccessors = gameBoard.getAllSuccessors(currentState);
         for (int atIndex = 0; atIndex < allSuccessors.size(); atIndex++) {
             State aSuccessor = allSuccessors.get(atIndex);
@@ -105,11 +97,6 @@ public class AlphaBeta {
 
     //returns the minValue of move
     public int minValue(State currentState, int alphaOfCurrentNode, int betaOfCurrentNode) {
-        if (System.currentTimeMillis() > cutOffTime) {
-            currentState.vValue = Integer.min(heuristic.heuristicValue(currentState), betaOfCurrentNode);
-            betaOfCurrentNode = currentState.vValue;
-            return betaOfCurrentNode;
-        }
         Vector<State> allSuccessors = gameBoard.getAllSuccessors(currentState);
         for (int atIndex = 0; atIndex < allSuccessors.size(); atIndex++) {
             State aSuccessor = allSuccessors.get(atIndex);

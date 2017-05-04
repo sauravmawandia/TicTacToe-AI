@@ -23,7 +23,14 @@ public class Game {
 
     public static void main(String args[]) throws IOException {
         Game game = new Game();
-        game.gamePlay();
+        System.out.println("Welcome to play Tic Tac Toe game .Play until you win against computer in level 3");
+        System.out.println("After a game finishes type exit to exit else a new game starts");
+        String choice;
+        Scanner sc=new Scanner(System.in);
+        do {
+            game.gamePlay();
+            choice=sc.next();
+        }while (choice.toLowerCase().equals("exit"));
     }
 
     //start the game by selecting level and first player
