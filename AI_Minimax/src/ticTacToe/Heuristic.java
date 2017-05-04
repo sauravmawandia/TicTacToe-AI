@@ -4,16 +4,13 @@ package ticTacToe;
  * Created by saura on 4/29/2017.
  */
 public class Heuristic {
-    public int heuristicValue(Node node){
-        //Game g=new Game();
-        //g.printBoard(node.board);
-        //System.out.println(heuristicCalculator(node,Player.X)-heuristicCalculator(node,Player.O));
-        return heuristicCalculator(node,Player.X)-heuristicCalculator(node,Player.O);
+    public int heuristicValue(BoardNode boardNode){
+        return heuristicCalculator(boardNode,Player.X)-heuristicCalculator(boardNode,Player.O);
     }
-    private int heuristicCalculator(Node node,Player p){
+    private int heuristicCalculator(BoardNode boardNode, Player p){
         int h=0;
-        for(int i=node.board.length-1;i>=1;i--){
-            int val=calculateHeuristicWithNandPlayer(node,i,p);
+        for(int i = boardNode.board.length-1; i>=1; i--){
+            int val=calculateHeuristicWithNandPlayer(boardNode,i,p);
             if(i==3){
                 h+=6*val;
             } else if(i==2){
@@ -24,19 +21,19 @@ public class Heuristic {
         }
         return h;
     }
-    private int calculateHeuristicWithNandPlayer(Node currentNode,int n,Player p){
-        return  calculateRowHeuristic(currentNode,n,p)+
-                calculateColumnHeuristic(currentNode,n,p)
-                +calculate45degreeDiagonalHeuristic(currentNode,n,p)+
-                calculate135degreeDiagonalHeuristic(currentNode,n,p);
+    private int calculateHeuristicWithNandPlayer(BoardNode currentBoardNode, int n, Player p){
+        return  calculateRowHeuristic(currentBoardNode,n,p)+
+                calculateColumnHeuristic(currentBoardNode,n,p)
+                +calculate45degreeDiagonalHeuristic(currentBoardNode,n,p)+
+                calculate135degreeDiagonalHeuristic(currentBoardNode,n,p);
     }
 
-    private int calculateRowHeuristic(Node currentNode, int n, Player p) {
+    private int calculateRowHeuristic(BoardNode currentBoardNode, int n, Player p) {
         int count = 0;
-        for (int row = 0; row < currentNode.board.length; row++) {
+        for (int row = 0; row < currentBoardNode.board.length; row++) {
             int timesOfNodeRepeated = 0;
-            for (int column = 0; column < currentNode.board.length; column++) {
-                Player nextPlayer = currentNode.board[row][column];
+            for (int column = 0; column < currentBoardNode.board.length; column++) {
+                Player nextPlayer = currentBoardNode.board[row][column];
                 if (p == nextPlayer)
                     timesOfNodeRepeated++;
             }
@@ -47,12 +44,12 @@ public class Heuristic {
         return count;
     }
 
-    private int calculateColumnHeuristic(Node currentNode, int n, Player p) {
+    private int calculateColumnHeuristic(BoardNode currentBoardNode, int n, Player p) {
         int count = 0;
-        for (int column = 0; column < currentNode.board.length; column++) {
+        for (int column = 0; column < currentBoardNode.board.length; column++) {
             int timesOfNodeRepeated = 0;
-            for (int row = 0; row < currentNode.board.length; row++) {
-                Player nextPlayer = currentNode.board[row][column];
+            for (int row = 0; row < currentBoardNode.board.length; row++) {
+                Player nextPlayer = currentBoardNode.board[row][column];
                 if (p == nextPlayer)
                     timesOfNodeRepeated++;
             }
@@ -62,11 +59,11 @@ public class Heuristic {
         return count;
     }
 
-    private int calculate45degreeDiagonalHeuristic(Node currentNode, int n, Player p) {
+    private int calculate45degreeDiagonalHeuristic(BoardNode currentBoardNode, int n, Player p) {
         int count = 0;
-        for (int i = 0; i < currentNode.board.length; i++) {
-            for (int j = 0; j < currentNode.board.length; j++) {
-                if (i == j && currentNode.board[i][j] == p) {
+        for (int i = 0; i < currentBoardNode.board.length; i++) {
+            for (int j = 0; j < currentBoardNode.board.length; j++) {
+                if (i == j && currentBoardNode.board[i][j] == p) {
                     count++;
                 }
             }
@@ -77,11 +74,11 @@ public class Heuristic {
         return 0;
     }
 
-    private int calculate135degreeDiagonalHeuristic(Node currentNode, int n, Player p) {
-        int size= currentNode.board.length;
+    private int calculate135degreeDiagonalHeuristic(BoardNode currentBoardNode, int n, Player p) {
+        int size= currentBoardNode.board.length;
         int count = 0;
-        for (int i = 0; i < currentNode.board.length; i++) {
-            if (currentNode.board[i][size-i-1] == p) {
+        for (int i = 0; i < currentBoardNode.board.length; i++) {
+            if (currentBoardNode.board[i][size-i-1] == p) {
                 count++;
             }
         }

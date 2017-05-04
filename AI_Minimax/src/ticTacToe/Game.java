@@ -9,12 +9,12 @@ import java.util.Vector;
  * Created by saura on 4/29/2017.
  */
 public class Game {
-    public final TicTacToe ticTacToe;
+    public final GameBoard gameBoard;
     public final AlphaBeta alphaBeta;
     private final Random random;
 
     public Game() {
-        this.ticTacToe = new TicTacToe();
+        this.gameBoard = new GameBoard();
         alphaBeta = new AlphaBeta();
         random=new Random(System.nanoTime());
 
@@ -27,7 +27,7 @@ public class Game {
     }
 
     public void gamePlay() {
-        Node root = ticTacToe.initializeNode();
+        BoardNode root = gameBoard.initializeNode();
         int level=this.getLevel();
         int player = this.getPlayer();
         this.printBoard(root.board);
@@ -65,66 +65,66 @@ public class Game {
         return humanInput;
     }
 
-    public int[] getCorrectInputFromHumanMove(Node currentNode) {
+    public int[] getCorrectInputFromHumanMove(BoardNode currentBoardNode) {
         int[] humanInput = this.readHumanInput();
         while (humanInput[0] >= 4 || humanInput[0] < 0
                 || humanInput[1] >= 4 || humanInput[1] < 0
-                || this.checkEmptySquareFromHumanInput(currentNode, humanInput) == false) {
+                || this.checkEmptySquareFromHumanInput(currentBoardNode, humanInput) == false) {
             System.out.println("Sorry. Your move is not correct.");
             humanInput = this.readHumanInput();
         }
         return humanInput;
     }
 
-    public void humanMove(Node currentNode, int level) {
-        Node newNode = new Node();
-        int[] humanInput = this.getCorrectInputFromHumanMove(currentNode);
-        newNode = ticTacToe.getSuccessor(currentNode, humanInput);
-        this.printBoard(newNode.board);
-        if (ticTacToe.terminalTest(newNode) == true) System.out.println("Congratulations. You won!");
-        else if (ticTacToe.isLeafNode(newNode) == true) System.out.println("The game is draw");
+    public void humanMove(BoardNode currentBoardNode, int level) {
+        BoardNode newBoardNode = new BoardNode();
+        int[] humanInput = this.getCorrectInputFromHumanMove(currentBoardNode);
+        newBoardNode = gameBoard.getSuccessor(currentBoardNode, humanInput);
+        this.printBoard(newBoardNode.board);
+        if (gameBoard.terminalTest(newBoardNode) == true) System.out.println("Congratulations. You won!");
+        else if (gameBoard.isLeafNode(newBoardNode) == true) System.out.println("The game is draw");
         else if(level==1) {
-            this.randomComputerMove(newNode);
+            this.randomComputerMove(newBoardNode);
         } else if(level==2){
-            this.mediumLevelComputerMove(newNode);
+            this.mediumLevelComputerMove(newBoardNode);
         }
         else {
-            this.computerMove(newNode);
+            this.computerMove(newBoardNode);
         }
     }
-    public void randomComputerMove(Node currentNode){
-        Node newNode = ticTacToe.initializeNodeWithInput(currentNode.board);
-        Vector<Node> nodes=ticTacToe.getAllSuccessors(newNode);
-        int pos=random.nextInt(nodes.size());
-        newNode=nodes.get(pos);
-        this.printBoard(newNode.board);
-        if (ticTacToe.terminalTest(newNode) == true) System.out.println("Computer won!");
-        else if (ticTacToe.isLeafNode(newNode) == true) System.out.println("The game is draw");
-        else this.humanMove(newNode,1);
+    public void randomComputerMove(BoardNode currentBoardNode){
+        BoardNode newBoardNode = gameBoard.initializeNodeWithInput(currentBoardNode.board);
+        Vector<BoardNode> boardNodes = gameBoard.getAllSuccessors(newBoardNode);
+        int pos=random.nextInt(boardNodes.size());
+        newBoardNode = boardNodes.get(pos);
+        this.printBoard(newBoardNode.board);
+        if (gameBoard.terminalTest(newBoardNode) == true) System.out.println("Computer won!");
+        else if (gameBoard.isLeafNode(newBoardNode) == true) System.out.println("The game is draw");
+        else this.humanMove(newBoardNode,1);
     }
-    public void mediumLevelComputerMove(Node currentNode){
-        Node newNode = ticTacToe.initializeNodeWithInput(currentNode.board);
-        Vector<Node> nodes=ticTacToe.getAllSuccessors(newNode);
-        if(nodes.size()>11){
-            int pos=random.nextInt(nodes.size());
-            newNode=nodes.get(pos);
+    public void mediumLevelComputerMove(BoardNode currentBoardNode){
+        BoardNode newBoardNode = gameBoard.initializeNodeWithInput(currentBoardNode.board);
+        Vector<BoardNode> boardNodes = gameBoard.getAllSuccessors(newBoardNode);
+        if(boardNodes.size()>11){
+            int pos=random.nextInt(boardNodes.size());
+            newBoardNode = boardNodes.get(pos);
         } else{
-            newNode = alphaBeta.nextNodeToMove(newNode);
+            newBoardNode = alphaBeta.nextNodeToMove(newBoardNode);
         }
-        this.printBoard(newNode.board);
-        if (ticTacToe.terminalTest(newNode) == true) System.out.println("Computer won!");
-        else if (ticTacToe.isLeafNode(newNode) == true) System.out.println("The game is draw");
-        else this.humanMove(newNode,2);
+        this.printBoard(newBoardNode.board);
+        if (gameBoard.terminalTest(newBoardNode) == true) System.out.println("Computer won!");
+        else if (gameBoard.isLeafNode(newBoardNode) == true) System.out.println("The game is draw");
+        else this.humanMove(newBoardNode,2);
     }
 
-    public void computerMove(Node currentNode) {
-        Node newNode = ticTacToe.initializeNodeWithInput(currentNode.board);
-        Vector<Node> nodes=ticTacToe.getAllSuccessors(newNode);
-        newNode = alphaBeta.nextNodeToMove(newNode);
-        this.printBoard(newNode.board);
-        if (ticTacToe.terminalTest(newNode) == true) System.out.println("Computer won!");
-        else if (ticTacToe.isLeafNode(newNode) == true) System.out.println("The game is draw");
-        else this.humanMove(newNode,3);
+    public void computerMove(BoardNode currentBoardNode) {
+        BoardNode newBoardNode = gameBoard.initializeNodeWithInput(currentBoardNode.board);
+        Vector<BoardNode> boardNodes = gameBoard.getAllSuccessors(newBoardNode);
+        newBoardNode = alphaBeta.nextNodeToMove(newBoardNode);
+        this.printBoard(newBoardNode.board);
+        if (gameBoard.terminalTest(newBoardNode) == true) System.out.println("Computer won!");
+        else if (gameBoard.isLeafNode(newBoardNode) == true) System.out.println("The game is draw");
+        else this.humanMove(newBoardNode,3);
     }
 
 
@@ -134,8 +134,8 @@ public class Game {
         return player.nextInt();
     }
 
-    public boolean checkEmptySquareFromHumanInput(Node currentNode, int[] humanInput) {
-        return currentNode.board[humanInput[0]][humanInput[1]] == Player.B;
+    public boolean checkEmptySquareFromHumanInput(BoardNode currentBoardNode, int[] humanInput) {
+        return currentBoardNode.board[humanInput[0]][humanInput[1]] == Player.B;
     }
     public int getLevel(){
         Scanner player = new Scanner(System.in);

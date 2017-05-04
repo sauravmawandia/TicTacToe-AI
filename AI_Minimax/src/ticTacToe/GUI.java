@@ -10,12 +10,12 @@ import java.util.HashMap;
  * Created by saura on 4/30/2017.
  */
 public class GUI extends JPanel {
-    TicTacToe ticTacToe = new TicTacToe();
+    GameBoard gameBoard = new GameBoard();
     AlphaBeta alphaBeta = new AlphaBeta();
     Game game = new Game();
     HashMap<Integer, Integer> x = new HashMap();
     HashMap<Integer, Integer> y = new HashMap();
-    Node root = ticTacToe.initializeNode();
+    BoardNode root = gameBoard.initializeNode();
 
 
 
@@ -49,7 +49,7 @@ public class GUI extends JPanel {
     }
 
     public void resetButtons() {
-        root = ticTacToe.initializeNode();
+        root = gameBoard.initializeNode();
         for (int i = 0; i <= 15; i++) {
             buttons[i].setText("");
         }

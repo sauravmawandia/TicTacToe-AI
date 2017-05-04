@@ -6,9 +6,9 @@ import java.util.Vector;
  * Created by saura on 4/29/2017.
  */
 public class AlphaBeta {
-    private final TicTacToe ticTacToe;
+    private final GameBoard gameBoard;
     private final Heuristic heuristic;
-    Vector<Node> possibleNextMoveNodes = new Vector<Node>();
+    Vector<BoardNode> possibleNextMoveBoardNodes = new Vector<BoardNode>();
     private long cutOffTime;
     private boolean cutOffOccurred;
     private int maxDepth;
@@ -19,7 +19,7 @@ public class AlphaBeta {
 
 
     public AlphaBeta() {
-        ticTacToe = new TicTacToe();
+        gameBoard = new GameBoard();
         heuristic = new Heuristic();
     }
     private void initialize(){
@@ -41,102 +41,102 @@ public class AlphaBeta {
         System.out.println("Number of Pruning in Min= "+pruningMin);
     }
 
-    public Node nextNodeToMove(Node currentNode) {
+    public BoardNode nextNodeToMove(BoardNode currentBoardNode) {
         initialize();
-        this.minimaxAlphaBetaPruning(currentNode, TicTacToe.O_WINS,TicTacToe.X_WINS);
-        Node newNode = getMaxNodeInList(possibleNextMoveNodes);
-        possibleNextMoveNodes.removeAllElements();
+        this.minimaxAlphaBetaPruning(currentBoardNode, GameBoard.O_WINS, GameBoard.X_WINS);
+        BoardNode newBoardNode = getMaxNodeInList(possibleNextMoveBoardNodes);
+        possibleNextMoveBoardNodes.removeAllElements();
         printStat();
-        return newNode;
+        return newBoardNode;
     }
 
-    public int minimaxAlphaBetaPruning(Node currentNode, int alpha, int beta) {
+    public int minimaxAlphaBetaPruning(BoardNode currentBoardNode, int alpha, int beta) {
         depth++;
         maxDepth=depth>maxDepth?depth:maxDepth;
         nodesGenerated++;
 
         int alphaOfCurrentNode = alpha;
         int betaOfCurrentNode = beta;
-        if (ticTacToe.isLeafNode(currentNode)) {
+        if (gameBoard.isLeafNode(currentBoardNode)) {
             depth=0;
-            return this.miniMaxLeafNode(currentNode);
+            return this.miniMaxLeafNode(currentBoardNode);
         }
         else if(System.currentTimeMillis()>cutOffTime) {
-            int hval = heuristic.heuristicValue(currentNode);
-            currentNode.heuristicValue = hval;
+            int hval = heuristic.heuristicValue(currentBoardNode);
+            currentBoardNode.heuristicValue = hval;
             cutOffOccurred=true;
             depth=0;
             return hval;
         }
-        else if (currentNode.nextPlayer == Player.X) {
-            return this.maxValue(currentNode, alphaOfCurrentNode, betaOfCurrentNode);
+        else if (currentBoardNode.nextPlayer == Player.X) {
+            return this.maxValue(currentBoardNode, alphaOfCurrentNode, betaOfCurrentNode);
         }
         else {
-            return this.minValue(currentNode, alphaOfCurrentNode, betaOfCurrentNode);
+            return this.minValue(currentBoardNode, alphaOfCurrentNode, betaOfCurrentNode);
         }
     }
-    public int maxValue(Node currentNode, int alphaOfCurrentNode, int betaOfCurrentNode) {
+    public int maxValue(BoardNode currentBoardNode, int alphaOfCurrentNode, int betaOfCurrentNode) {
         if(System.currentTimeMillis()>cutOffTime){
-            currentNode.heuristicValue=Integer.max(heuristic.heuristicValue(currentNode),alphaOfCurrentNode);
-            alphaOfCurrentNode=currentNode.heuristicValue;
+            currentBoardNode.heuristicValue=Integer.max(heuristic.heuristicValue(currentBoardNode),alphaOfCurrentNode);
+            alphaOfCurrentNode= currentBoardNode.heuristicValue;
             return alphaOfCurrentNode;
 
         }
-        Vector<Node> allSuccessors = ticTacToe.getAllSuccessors(currentNode);
+        Vector<BoardNode> allSuccessors = gameBoard.getAllSuccessors(currentBoardNode);
         for (int atIndex = 0; atIndex < allSuccessors.size(); atIndex++) {
-            Node aSuccessor = allSuccessors.get(atIndex);
+            BoardNode aSuccessor = allSuccessors.get(atIndex);
             int currentMax = this.minimaxAlphaBetaPruning(aSuccessor, alphaOfCurrentNode, betaOfCurrentNode);
             alphaOfCurrentNode = Integer.max(alphaOfCurrentNode, currentMax);
-            currentNode.heuristicValue = Integer.max(currentNode.heuristicValue, alphaOfCurrentNode);
+            currentBoardNode.heuristicValue = Integer.max(currentBoardNode.heuristicValue, alphaOfCurrentNode);
             if (alphaOfCurrentNode >= betaOfCurrentNode) {
                 pruningMax++;
                 break;
             }
         }
-        if(this.possibleNextMoveNodes(currentNode) != null) possibleNextMoveNodes.add(currentNode);
+        if(this.possibleNextMoveNodes(currentBoardNode) != null) possibleNextMoveBoardNodes.add(currentBoardNode);
         return alphaOfCurrentNode;
     }
 
-    public int minValue(Node currentNode, int alphaOfCurrentNode, int betaOfCurrentNode) {
+    public int minValue(BoardNode currentBoardNode, int alphaOfCurrentNode, int betaOfCurrentNode) {
         if(System.currentTimeMillis()>cutOffTime){
-            currentNode.heuristicValue=Integer.min(heuristic.heuristicValue(currentNode),betaOfCurrentNode);
-            betaOfCurrentNode=currentNode.heuristicValue;
+            currentBoardNode.heuristicValue=Integer.min(heuristic.heuristicValue(currentBoardNode),betaOfCurrentNode);
+            betaOfCurrentNode= currentBoardNode.heuristicValue;
             return betaOfCurrentNode;
         }
-        Vector<Node> allSuccessors = ticTacToe.getAllSuccessors(currentNode);
+        Vector<BoardNode> allSuccessors = gameBoard.getAllSuccessors(currentBoardNode);
         for (int atIndex = 0; atIndex < allSuccessors.size(); atIndex++) {
-            Node aSuccessor = allSuccessors.get(atIndex);
+            BoardNode aSuccessor = allSuccessors.get(atIndex);
             int v = this.minimaxAlphaBetaPruning(aSuccessor, alphaOfCurrentNode, betaOfCurrentNode);
             betaOfCurrentNode = Integer.min(betaOfCurrentNode, v);
-            currentNode.heuristicValue = Integer.min(currentNode.heuristicValue, betaOfCurrentNode);
+            currentBoardNode.heuristicValue = Integer.min(currentBoardNode.heuristicValue, betaOfCurrentNode);
             if (alphaOfCurrentNode >= betaOfCurrentNode){
                 pruningMin++;
                 break;
             }
         }
-        if (this.possibleNextMoveNodes(currentNode) != null) possibleNextMoveNodes.add(currentNode);
+        if (this.possibleNextMoveNodes(currentBoardNode) != null) possibleNextMoveBoardNodes.add(currentBoardNode);
         return betaOfCurrentNode;
     }
 
 
 
     // Get next move
-    public Node possibleNextMoveNodes(Node currentNode) {
-        if (currentNode.atDepth == 1) return currentNode;
+    public BoardNode possibleNextMoveNodes(BoardNode currentBoardNode) {
+        if (currentBoardNode.atDepth == 1) return currentBoardNode;
         else
             return null;
     }
 
-    public int miniMaxLeafNode(Node currentNode) {
-        if (this.possibleNextMoveNodes(currentNode) != null)
-            possibleNextMoveNodes.add(currentNode);
-        return ticTacToe.getUtilityOfState(currentNode);
+    public int miniMaxLeafNode(BoardNode currentBoardNode) {
+        if (this.possibleNextMoveNodes(currentBoardNode) != null)
+            possibleNextMoveBoardNodes.add(currentBoardNode);
+        return gameBoard.getUtilityOfState(currentBoardNode);
     }
-    public Node getMaxNodeInList(Vector<Node> aVectorNode) {
-        Node maxNode = aVectorNode.get(0);
-        int listSize = aVectorNode.size();
+    public BoardNode getMaxNodeInList(Vector<BoardNode> aVectorBoardNode) {
+        BoardNode maxBoardNode = aVectorBoardNode.get(0);
+        int listSize = aVectorBoardNode.size();
         for (int index = 0; index < listSize; index++)
-            if (maxNode.heuristicValue < aVectorNode.get(index).heuristicValue) maxNode = aVectorNode.get(index);
-        return maxNode;
+            if (maxBoardNode.heuristicValue < aVectorBoardNode.get(index).heuristicValue) maxBoardNode = aVectorBoardNode.get(index);
+        return maxBoardNode;
     }
 }

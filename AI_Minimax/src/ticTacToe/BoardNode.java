@@ -3,28 +3,28 @@ package ticTacToe;
 /**
  * Created by saura on 4/29/2017.
  */
-public class Node {
+public class BoardNode {
     Player[][] board = new Player[4][4];
     Player nextPlayer;
-    Node parent;
+    BoardNode parent;
     int heuristicValue;
     int atDepth;
 
-    public Node() {
+    public BoardNode() {
         for(int i=0;i<board.length;i++){
             for(int j=0;j<board[i].length;j++){
                 board[i][j]=Player.B;
             }
         }
     }
-    public Node(Player[][] board, Node parent, int heuristicValue, int atDepth, Player nextPlayer) {
+    public BoardNode(Player[][] board, BoardNode parent, int heuristicValue, int atDepth, Player nextPlayer) {
         this.board = board;
         this.nextPlayer = nextPlayer;
         this.parent = parent;
         this.heuristicValue = heuristicValue;
         this.atDepth = atDepth;
     }
-    public Node(Player[][] board) {
+    public BoardNode(Player[][] board) {
         this(board, null, 0, 0, null);
     }
 
