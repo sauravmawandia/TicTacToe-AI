@@ -15,6 +15,8 @@ public class GUI extends JPanel {
     Game game = new Game();
     HashMap<Integer, Integer> x = new HashMap();
     HashMap<Integer, Integer> y = new HashMap();
+    Node root = ticTacToe.initializeNode();
+
 
 
     JButton buttons[] = new JButton[16];
@@ -31,6 +33,7 @@ public class GUI extends JPanel {
         y.put(61, 1);
         y.put(122, 2);
         y.put(183, 3);
+        root.nextPlayer = Player.O;
 
 
     }
@@ -46,46 +49,17 @@ public class GUI extends JPanel {
     }
 
     public void resetButtons() {
+        root = ticTacToe.initializeNode();
         for (int i = 0; i <= 15; i++) {
             buttons[i].setText("");
         }
     }
 
     private class ButtonListner implements ActionListener {
-        Node root = ticTacToe.initializeNode();
-        Node newNode=root;
-        ButtonListner(){
-            root.nextPlayer = Player.O;
-        }
         public void actionPerformed(ActionEvent e) {
             JButton buttonClicked = (JButton) e.getSource(); //get the particular button that was clicked
-            int[] humanInput = { y.get(buttonClicked.getY()),x.get(buttonClicked.getX())};
-            newNode=humanMove(newNode,humanInput);
+            int[] humanInput = {y.get(buttonClicked.getY()), x.get(buttonClicked.getX())};
             buttonClicked.setText("O");
-            newNode=machineMove(newNode);
-
-        }
-        public Node machineMove(Node node){
-            Node newNode = ticTacToe.initializeNodeWithInput(node.board);
-            newNode = alphaBeta.nextNodeToMove(newNode);
-            if(ticTacToe.terminalTest(newNode) == true) System.out.println("Computer won!");
-            else if(ticTacToe.isLeafNode(newNode) == true)  System.out.println("The game is draw");
-            return newNode;
-        }
-        public Node humanMove(Node n,int[] humanInput){
-            JButton action=new JButton("C");
-
-            System.out.println(humanInput[0]+" "+humanInput[1]);
-            Node newNode = new Node();
-            newNode = ticTacToe.getSuccessor(root, humanInput);
-            game.outputBoard(newNode.board);
-            if (ticTacToe.terminalTest(newNode) == true) {
-                JOptionPane.showConfirmDialog(null, "Congratulation you won.");
-                resetButtons();
-            } else if (ticTacToe.isLeafNode(newNode) == true)
-                System.out.println("The game is draw");
-            return newNode;
-
         }
 
     }

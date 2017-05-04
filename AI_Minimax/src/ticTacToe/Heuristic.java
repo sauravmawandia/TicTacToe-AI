@@ -6,7 +6,7 @@ package ticTacToe;
 public class Heuristic {
     public int heuristicValue(Node node){
         //Game g=new Game();
-        //g.outputBoard(node.board);
+        //g.printBoard(node.board);
         //System.out.println(heuristicCalculator(node,Player.X)-heuristicCalculator(node,Player.O));
         return heuristicCalculator(node,Player.X)-heuristicCalculator(node,Player.O);
     }
