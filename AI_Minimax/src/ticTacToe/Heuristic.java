@@ -6,14 +6,15 @@ package ticTacToe;
 public class Heuristic {
     //calculate heuristic of State
     public int heuristicValue(State state) {
-        return heuristicCalculator(state, Player.X) - heuristicCalculator(state, Player.O);
+        int val=heuristicCalculator(state, Player.X,Player.O) - heuristicCalculator(state, Player.O,Player.X);
+        return val;
     }
 
     //calculate heuristic of a player
-    private int heuristicCalculator(State state, Player p) {
+    private int heuristicCalculator(State state, Player p,Player opposite) {
         int h = 0;
         for (int i = state.board.length - 1; i >= 1; i--) {
-            int val = calculateHeuristicForN(state, i, p);
+            int val = calculateHeuristicForN(state, i, p,opposite);
             if (i == 3) {
                 h += 6 * val;
             } else if (i == 2) {
@@ -26,15 +27,15 @@ public class Heuristic {
     }
 
     //calculate heuristic with Player-n where n is the number of moves in a particular row or column or diagonal
-    private int calculateHeuristicForN(State currentState, int n, Player p) {
-        return calculateRowHeuristic(currentState, n, p) +
-                calculateColumnHeuristic(currentState, n, p)
-                + calculate45degreeDiagonalHeuristic(currentState, n, p) +
-                calculate135degreeDiagonalHeuristic(currentState, n, p);
+    private int calculateHeuristicForN(State currentState, int n, Player p,Player opposite) {
+        return calculateRowHeuristic(currentState, n, p,opposite) +
+                calculateColumnHeuristic(currentState, n, p,opposite)
+                + calculate45degreeDiagonalHeuristic(currentState, n, p,opposite) +
+                calculate135degreeDiagonalHeuristic(currentState, n, p,opposite);
     }
 
     //calculate row heuristic
-    private int calculateRowHeuristic(State currentState, int n, Player p) {
+    private int calculateRowHeuristic(State currentState, int n, Player p,Player opposite) {
         int count = 0;
         for (int row = 0; row < currentState.board.length; row++) {
             int timesOfNodeRepeated = 0;
@@ -42,6 +43,10 @@ public class Heuristic {
                 Player nextPlayer = currentState.board[row][column];
                 if (p == nextPlayer)
                     timesOfNodeRepeated++;
+                else if(nextPlayer==opposite){
+                    timesOfNodeRepeated=0;
+                    break;
+                }
             }
             if (timesOfNodeRepeated == n) {
                 count++;
@@ -51,7 +56,7 @@ public class Heuristic {
     }
 
     //calculate column heuristic
-    private int calculateColumnHeuristic(State currentState, int n, Player p) {
+    private int calculateColumnHeuristic(State currentState, int n, Player p,Player opposite) {
         int count = 0;
         for (int column = 0; column < currentState.board.length; column++) {
             int timesOfNodeRepeated = 0;
@@ -59,6 +64,10 @@ public class Heuristic {
                 Player nextPlayer = currentState.board[row][column];
                 if (p == nextPlayer)
                     timesOfNodeRepeated++;
+                else if(nextPlayer==opposite){
+                    timesOfNodeRepeated=0;
+                    break;
+                }
             }
             if (timesOfNodeRepeated == n)
                 count++;
@@ -67,10 +76,13 @@ public class Heuristic {
     }
 
     //calculate 45 degree diagonal heuristic
-    private int calculate45degreeDiagonalHeuristic(State currentState, int n, Player p) {
+    private int calculate45degreeDiagonalHeuristic(State currentState, int n, Player p,Player opposite) {
         int count = 0;
         for (int i = 0; i < currentState.board.length; i++) {
             for (int j = 0; j < currentState.board.length; j++) {
+                if (i == j && currentState.board[i][j]==opposite){
+                    return 0;
+                }
                 if (i == j && currentState.board[i][j] == p) {
                     count++;
                 }
@@ -83,10 +95,13 @@ public class Heuristic {
     }
 
     //calculate 135 degree diagonal heuristic
-    private int calculate135degreeDiagonalHeuristic(State currentState, int n, Player p) {
+    private int calculate135degreeDiagonalHeuristic(State currentState, int n, Player p,Player opposite) {
         int size = currentState.board.length;
         int count = 0;
         for (int i = 0; i < currentState.board.length; i++) {
+            if (currentState.board[i][size - i - 1] == opposite ) {
+                return 0;
+            }
             if (currentState.board[i][size - i - 1] == p) {
                 count++;
             }
