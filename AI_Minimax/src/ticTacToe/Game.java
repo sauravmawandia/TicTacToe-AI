@@ -10,7 +10,7 @@ import java.util.Vector;
  */
 public class Game {
 
-    private static final int INTERMEDIATE_MOVE =11;
+    private static final int INTERMEDIATE_MOVE =8;
     private final GameBoard gameBoard;
     private final AlphaBeta alphaBeta;
     private final Random random;
